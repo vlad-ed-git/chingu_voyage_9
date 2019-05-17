@@ -1,0 +1,71 @@
+#game_header{
+	margin-top: 24px;
+}
+
+#instructions{
+	width: 100%;
+	border-radius: 12px;
+	padding: 8px 12px 8px 12px;
+	text-align: center;
+	font-size: 22px;
+	font-family: sans-serif;
+}
+
+table{
+	border-top-left-radius: 12px;
+	border-top-right-radius: 12px;
+	width: 100%;
+
+}
+
+#game_canvas{
+	text-align: center; 
+    vertical-align: middle;
+}
+
+td{
+	padding: 8px;
+}
+
+
+
+/* Small devices (landscape phones, 576px and up) */
+@media (max-width: 576px) { 
+	.coin_cell{
+			display: inline-block;
+			width: 24px;
+			height: 24px;
+			border-radius: 12px;
+			border: 2px solid  #f4bf1a;
+	}
+
+
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 577px) { 
+	.coin_cell{
+			display: inline-block;
+			width: 32px;
+			height: 32px;
+			border-radius: 16px;
+			border: 2px solid  #f4bf1a;
+	}
+
+
+ }
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) { 
+
+	.coin_cell{
+			display: inline-block;
+			width: 48px;
+			height: 48px;
+			border-radius: 24px;
+			border: 2px solid   #f4bf1a;
+	}
+
+
+ }
+

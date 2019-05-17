@@ -4,38 +4,44 @@
 	<meta charset="utf-8"> 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	
-	<title></title>
+
+	<title>CONNECT 4 GAME</title>
 
 
 
 	<!-- link to styles -->
 	<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="../css/index.css">
+	<link rel="stylesheet" type="text/css" href="../css/colors.css">
 </head>
-<body>
+<body class="colorWarmBg">
 
 	<div id="game_header" class="container">
-				<div class="row">
-					<div class="col-12">
-						<p id="instructions">CONNECT 4 GAME</p>
-					</div>
-				</div>
+		<div class="row">
+			<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+				<p id="instructions" class="colorDarkRedBg goldenYellow">Player 1 Start</p>
+			</div>
+		</div>
 	</div>
 
-	<div id="game_play_body">
+	<div id="game_play_body" class="container">
+		<div class="row">
+			<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+				<table id="game_canvas"  class="colorGreenishBg">
 		
+				<!-- rows are inserted via jquery -->
+
+				</table>
+			</div>
+		</div>
 	</div>
 
 	<div id="game_footer">
 		
 	</div>
-
-
-
-
 <!-- link to jquery and bootstrap -->
 <script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../js/index.js"></script>
 </body>
 </html>
