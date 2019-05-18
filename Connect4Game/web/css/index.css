@@ -1,8 +1,8 @@
-#game_header{
+#game_header, #game_footer{
 	margin-top: 24px;
 }
 
-#instructions{
+#instructions, #reset{
 	width: 100%;
 	border-radius: 12px;
 	padding: 8px 12px 8px 12px;
@@ -10,6 +10,7 @@
 	font-size: 22px;
 	font-family: sans-serif;
 }
+
 
 table{
 	border-top-left-radius: 12px;

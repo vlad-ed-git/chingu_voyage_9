@@ -209,12 +209,14 @@ $(document).ready(function(){
  			else
  				player_turn = 2;
 
- 			 filled_column_tracker = [5, 5, 5, 5, 5, 5, 5]; //initialize with a 5 (for 0-5 ie. 6 rows) value for 7 (columns) element
-		
+ 			//initialize with a 5 (for 0-5 ie. 6 rows, with 5 being the bottom row) value for 7 (columns) element
+ 			 filled_column_tracker = [5, 5, 5, 5, 5, 5, 5]; 
 
  			 //initialize the canvas
  			game_canvas.empty(); 
+
  			initializeGameBoard(game_canvas);
+ 			
 		}
 
 		
@@ -228,7 +230,7 @@ $(document).ready(function(){
  		reset();
 
  		//when user clicks a cell
- 		$('.coin_cell').on('click', function(){
+ 		$("#game_canvas").on("click", '.coin_cell', function(){
 
  			var clicked_cell_id = this.id;				// expecting an id of form e.g. r1c1  
  			var clicked_column_str  = clicked_cell_id[3];   // get the very last character, which will be column number
@@ -239,6 +241,7 @@ $(document).ready(function(){
  			
  			// fill this cell
 			$("#" + cell_to_fill).removeClass("colorWarmBg");
+
 			if(player_turn == 1){
 				$("#" + cell_to_fill).addClass("goldenYellowBg"); 
 				clicked_cells1.push(cell_to_fill_only_numbers); 
@@ -251,6 +254,8 @@ $(document).ready(function(){
 
 
 				player_turn = 2; // change player turn
+				$("#instructions").removeClass("darkerGoldenYellowBg");
+				$("#instructions").addClass("colorDarkPurpleBg");
 				$("#instructions").text("Player 2's Turn");
 
 
@@ -266,7 +271,8 @@ $(document).ready(function(){
 
 
 				player_turn = 1; // change player turn
-
+				$("#instructions").removeClass("colorDarkPurpleBg");
+				$("#instructions").addClass("darkerGoldenYellowBg");
 				$("#instructions").text("Player 1's Turn");
 			}
 			
@@ -292,6 +298,12 @@ $(document).ready(function(){
 
  			
 
+ 		});
+
+
+ 		$("#reset").on('click', function(){
+
+ 			reset();
  		});
 
 
