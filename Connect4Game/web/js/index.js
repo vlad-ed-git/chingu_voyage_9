@@ -7,7 +7,13 @@ $(document).ready(function(){
  		var clicked_cells2 = [];
 
  		//initialize players
- 		var player_turn = 1;
+ 		var player_turn = 0;
+
+
+ 		//get reference to the game canvas
+ 		var game_canvas =  $("#game_canvas");
+
+ 		var filled_column_tracker = [];  
 
 
 
@@ -35,139 +41,103 @@ $(document).ready(function(){
 
 
 		//find diagonal connections
-		function scanForDiagonalConnectionsDesc(clicked_cells, player){
-
+		function scanForDiagonalConnections(clicked_cells, player){
 
 			clicked_cells.forEach(function(item, index, array) {
 
-				var r = item[0];
-				var c = item[1];
-				var r_num = parseInt(r);
-				var c_num = parseInt(c);
+				var row_num_str = item[0];
+				var col_num_str = item[1];
+				var row_num = parseInt(row_num_str);
+				var col_num = parseInt(col_num_str);
 
-				var line_length = 0;				
-				var decrease_r = r_num - 1;
-				var decrease_c = c_num - 1;
-				var increase_r = r_num + 1;
-				var increase_c = c_num + 1;
-				while(decrease_r > -1 && decrease_c > -1 && increase_r < 6 && increase_c < 7){
+				connected_elements = 1; // this item is connected to itself
+
 				
-				var check_for = decrease_r.toString() + decrease_c.toString()
-				var check_for2 =  increase_r.toString() + increase_c.toString()
+				//in a diagonal connection, the row and column can both increase by 1 (or decrease, depending on view)
+				while(row_num < 6 && col_num < 7){
 
-				var break_out = 1;
-				if(clicked_cells.includes(check_for)) {
-					break_out = 0;
-					line_length = line_length + 1;
-					if(line_length == 3)
-						gameOver(player); // this player wins 
-				}
-				if(clicked_cells.includes(check_for2)){
-					break_out = 0;
-					line_length = line_length + 1;
-					if(line_length == 3)
-						gameOver(player); // this player wins 
-				}
-				if(break_out == 1){
-					break;
-				}else{
-					decrease_r--;
-					decrease_c--;
-					increase_r++;
-					increase_c++;
+					row_num = row_num + 1;
+					col_num = col_num + 1;
+					var check_for = row_num.toString() + col_num.toString();
+
+					if(clicked_cells.includes(check_for)){
+						connected_elements = connected_elements + 1;
+						if(connected_elements == 4){
+							gameOver(player, "diagonally connected");  
+						}
+					}else{
+						break; // the chain is broken 
+					}
+
+
 				}
 
-			}
+				/************  OR **************** CASE 2 ******************/
+				//re initialize 
+				var row_num = parseInt(row_num_str);
+				var col_num = parseInt(col_num_str);
+
+				connected_elements = 1; // this item is connected to itself
+
+				//in a diagonal connection, the row can increase while the column decrease by 1 (or viceversa, depending on view)
+				while(row_num > -1 && col_num < 7){
+
+					row_num = row_num - 1;
+					col_num = col_num + 1;
+					var check_for = row_num.toString() + col_num.toString();
+
+					if(clicked_cells.includes(check_for)){
+						connected_elements = connected_elements + 1;
+						if(connected_elements == 4){
+							gameOver(player, "diagonally connected");  
+						}
+					}else{
+						break; // the chain is broken 
+					}
+
+
+				}
+
 
 			  	
 			});
 
+			
 
 			
 			
 		}
 
-		//find diagonal connections
-		function scanForDiagonalConnectionsAsc(clicked_cells, player){
-
-
-			clicked_cells.forEach(function(item, index, array) {
-
-				var r = item[0];
-				var c = item[1];
-				var r_num = parseInt(r);
-				var c_num = parseInt(c);
-
-				var line_length = 0;				
-				var decrease_r = r_num - 1;
-				var decrease_c = c_num - 1;
-				var increase_r = r_num + 1;
-				var increase_c = c_num + 1;
-				while(decrease_r > -1 && decrease_c > -1 && increase_r < 6 && increase_c < 7){
-				
-				var check_for = decrease_r.toString() + increase_c.toString()
-				var check_for2 =  increase_r.toString() + decrease_c.toString()
-
-				var break_out = 1;
-				if(clicked_cells.includes(check_for)) {
-					break_out = 0;
-					line_length = line_length + 1;
-					if(line_length == 3)
-						gameOver(player); // this player wins 
-				}
-				if(clicked_cells.includes(check_for2)){
-					break_out = 0;
-					line_length = line_length + 1;
-					if(line_length == 3)
-						gameOver(player); // this player wins 
-				}
-				if(break_out == 1){
-					break;
-				}else{
-					decrease_r--;
-					decrease_c--;
-					increase_r++;
-					increase_c++;
-				}
-
-			}
-
-			  	
-			});
-			
-		}
-
-
+		
 		//find vertical connections
-		function scanForVerticalConnections(clicked_cells, player){
+		function scanForVerticalConnection(clicked_cells, player){
 
 
 			clicked_cells.forEach(function(item, index, array) {
 
-				var r = item[0];
-				var c = item[1];
-				var r_num = parseInt(r);
-				var c_num = parseInt(c);
+				var row_num_str = item[0];
+				var col_num_str = item[1];
+				var row_num = parseInt(row_num_str);
 
-				var line_length = 0;			
-				var decrease_r = r_num + 1;
-				while(decrease_r > -1){
-				
-				var check_for = decrease_r.toString() + c;
-				var break_out = 1;
-				if(clicked_cells.includes(check_for)) {
-					break_out = 0;
-					line_length = line_length + 1;
-					if(line_length == 3)
-						gameOver(player); // this player wins 
-				}
-				if(break_out == 1){
-					break;
-				}else{
-					decrease_r--;
-				}
+				connected_elements = 1; // this item is connected to itself
 
-			}
+				// in a vertical connection, the col stays the same, the row decreases (or increases, depending on view point)
+				while(row_num > -1){
+
+					row_num = row_num - 1;
+					var check_for = row_num.toString() + col_num_str;
+
+					if(clicked_cells.includes(check_for)){
+						connected_elements = connected_elements + 1;
+						if(connected_elements == 4){
+							gameOver(player, "vertically connected");  
+						}
+					}else{
+						break; // the chain is broken 
+					}
+
+
+				}
 
 			  	
 			});
@@ -177,78 +147,85 @@ $(document).ready(function(){
 			
 		}
 
-		//find vertical connections
-		function scanForHorizontalConnections(clicked_cells, player){
-
+		//find horizontal connections
+		function scanForHorizontalConnection(clicked_cells, player){
 
 			clicked_cells.forEach(function(item, index, array) {
 
-				var r = item[0];
-				var c = item[1];
-				var r_num = parseInt(r);
-				var c_num = parseInt(c);
+				var row_num_str = item[0];
+				var col_num_str = item[1];
+				var col_num = parseInt(col_num_str);
 
-				var line_length = 0;		
-				var decrease_c = c_num - 1;
-				var increase_c = c_num + 1;
-				while(decrease_c > -1 && increase_c < 7){
-				
-				var check_for = r + increase_c.toString()
-				var check_for2 =  r + decrease_c.toString()
+				connected_elements = 1; // this item is connected to itself
 
-				var break_out = 1;
-				if(clicked_cells.includes(check_for)) {
-					break_out = 0;
-					line_length = line_length + 1;
-					if(line_length == 3)
-						gameOver(player); // this player wins 
-				}
-				if(clicked_cells.includes(check_for2)){
-					break_out = 0;
-					line_length = line_length + 1;
-					if(line_length == 3)
-						gameOver(player); // this player wins 
-				}
-				if(break_out == 1){
-					break;
-				}else{
-					decrease_c--;
-					increase_c++;
+				// in a horizontal connection, the row stays the same, the col increases (or decreases, depending on view point)
+				while(col_num < 7){
+
+					col_num = col_num + 1;
+					var check_for = row_num_str + col_num.toString();
+
+					if(clicked_cells.includes(check_for)){
+						connected_elements = connected_elements + 1;
+						if(connected_elements == 4){
+							gameOver(player , "Horizontally connected");  
+						}
+					}else{
+						break; // the chain is broken 
+					}
+
+
 				}
 
-			}
 
-			  	
+
+
+
+
 			});
-
 
 			
 			
 		}
 
 		//shows winner
-		function gameOver(player){
+		function gameOver(player, msg){
 			if (player != 3 ) {
-				alert(player + "wins : GAME OVER");
+				alert("PLAYER" +  player + " wins by " + msg);
 			} else {
 				alert("It's a draw : GAME OVER");
 			}
+			reset();
+		}
+
+
+		//resets everything
+		function reset(){
+			clicked_cells1 = [];
+ 			clicked_cells2 = [];
+
+ 			//initialize players
+ 			if(player_turn == 0 || player_turn == 2)
+ 			 	player_turn = 1;
+ 			else
+ 				player_turn = 2;
+
+ 			 filled_column_tracker = [5, 5, 5, 5, 5, 5, 5]; //initialize with a 5 (for 0-5 ie. 6 rows) value for 7 (columns) element
+		
+
+ 			 //initialize the canvas
+ 			game_canvas.empty(); 
+ 			initializeGameBoard(game_canvas);
 		}
 
 		
 
 
- 		//get reference to the game canvas
- 		var game_canvas =  $("#game_canvas");
-
- 		
- 		//initialize the canvas
- 		initializeGameBoard(game_canvas);
-
- 		var filled_column_tracker = [5, 5, 5, 5, 5, 5, 5];  //initialize with a 5 (for 0-5 ie. 6 rows) value for 7 (columns) elements  
 
 
- 		
+ 		/**************** GAME PLAY ********************************/
+
+ 		//START GAME
+ 		reset();
 
  		//when user clicks a cell
  		$('.coin_cell').on('click', function(){
@@ -266,10 +243,11 @@ $(document).ready(function(){
 				$("#" + cell_to_fill).addClass("goldenYellowBg"); 
 				clicked_cells1.push(cell_to_fill_only_numbers); 
 
-				scanForDiagonalConnectionsDesc(clicked_cells1, player_turn);
-				scanForDiagonalConnectionsAsc(clicked_cells1, player_turn);
-				scanForVerticalConnections(clicked_cells1, player_turn);
-				scanForHorizontalConnections(clicked_cells1, player_turn);
+				if(clicked_cells1.length > 3){
+				scanForDiagonalConnections(clicked_cells1, player_turn);
+				scanForVerticalConnection(clicked_cells1, player_turn);
+				scanForHorizontalConnection(clicked_cells1, player_turn);
+				}
 
 
 				player_turn = 2; // change player turn
@@ -280,10 +258,11 @@ $(document).ready(function(){
 				$("#" + cell_to_fill).addClass("colorDarkPurpleBg");
 				clicked_cells2.push(cell_to_fill_only_numbers); 
 
-				scanForDiagonalConnectionsDesc(clicked_cells2, player_turn);
-				scanForDiagonalConnectionsAsc(clicked_cells2, player_turn);
-				scanForVerticalConnections(clicked_cells2, player_turn);
-				scanForHorizontalConnections(clicked_cells2, player_turn);
+				if(clicked_cells1.length > 3){
+				scanForDiagonalConnections(clicked_cells2, player_turn);
+				scanForVerticalConnection(clicked_cells2, player_turn);
+				scanForHorizontalConnection(clicked_cells2, player_turn);
+				}
 
 
 				player_turn = 1; // change player turn
