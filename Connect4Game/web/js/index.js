@@ -8,6 +8,7 @@ $(document).ready(function(){
 
  		//initialize players
  		var player_turn = 0;
+ 		var new_level;
 
 
  		//get reference to the game canvas
@@ -187,10 +188,12 @@ $(document).ready(function(){
 			
 		}
 
+
 		//shows winner
 		function gameOver(player, msg){
 			if (player != 3 ) {
 				alert("PLAYER" +  player + " wins : " + msg);
+				window.name = player.toString();
 			} else {
 				alert("It's a draw : GAME OVER");
 			}
@@ -218,19 +221,18 @@ $(document).ready(function(){
 
  			}
 
- 			//initialize with a 5 (for 0-5 ie. 6 rows, with 5 being the bottom row) value for 7 (columns) element
- 			 filled_column_tracker = [5, 5, 5, 5, 5, 5, 5]; 
+ 			new_level = true;
 
  			 //initialize the canvas
  			game_canvas.empty(); 
 
  			initializeGameBoard(game_canvas);
 
+ 		
  			
 		}
 
 		
-
 
 
  		/**************** GAME PLAY ********************************/
@@ -241,7 +243,16 @@ $(document).ready(function(){
  		//when user clicks a cell
  		$("#game_canvas").on("click", '.coin_cell', function(){
 
+ 			if(new_level){
+ 				new_level = false;
+ 				//initialize with a 5 (for 0-5 ie. 6 rows, with 5 being the bottom row) value for 7 (columns) elements
+ 			 	filled_column_tracker = [5, 5, 5, 5, 5, 5, 5];  
+ 			}
  			
+
+
+
+ 		
 
  			var clicked_cell_id = this.id;				// expecting an id of form e.g. r1c1  
  			var clicked_column_str  = clicked_cell_id[3];   // get the very last character, which will be column number
@@ -292,11 +303,6 @@ $(document).ready(function(){
 			
 		
 
-			
-
-			
-
-
 			filled_column_tracker[clicked_column_str]   = filled_column_tracker[clicked_column_str] - 1 //decrement row position 
  			if(filled_column_tracker[clicked_column_str] == -1){
  				i = 0;
@@ -310,9 +316,14 @@ $(document).ready(function(){
  				
  			}
 
+			
+
+			
+
  			
 
  		});
+
 
 
 
