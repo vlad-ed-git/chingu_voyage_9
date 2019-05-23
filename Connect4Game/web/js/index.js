@@ -192,8 +192,8 @@ $(document).ready(function(){
 		//shows winner
 		function gameOver(player, msg){
 			if (player != 3 ) {
-				alert("PLAYER" +  player + " wins : " + msg);
-				window.name = player.toString();
+				alert("PLAYER " +  player + " wins : " + msg);
+			
 			} else {
 				alert("It's a draw : GAME OVER");
 			}
