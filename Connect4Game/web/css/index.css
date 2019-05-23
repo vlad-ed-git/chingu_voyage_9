@@ -2,6 +2,12 @@
 	margin-top: 24px;
 }
 
+#winner_coin{
+	display: inline-block;
+	margin: 12px;
+
+}
+
 #instructions, #reset{
 	width: 100%;
 	border-radius: 12px;

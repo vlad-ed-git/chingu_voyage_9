@@ -192,6 +192,7 @@ $(document).ready(function(){
 		//shows winner
 		function gameOver(player, msg){
 			if (player != 3 ) {
+			$("#winner_coin").show();
 				alert("PLAYER " +  player + " wins : " + msg);
 			
 			} else {
@@ -203,6 +204,8 @@ $(document).ready(function(){
 
 		//resets everything
 		function reset(){
+
+			$("#winner_coin").hide();
 			clicked_cells1 = [];
  			clicked_cells2 = [];
 
