@@ -13,7 +13,7 @@ $(document).ready(function(){
  		//get reference to the game canvas
  		var game_canvas =  $("#game_canvas");
 
- 		var filled_column_tracker = [];  
+ 		var filled_column_tracker;  
 
 
 
@@ -63,7 +63,7 @@ $(document).ready(function(){
 					if(clicked_cells.includes(check_for)){
 						connected_elements = connected_elements + 1;
 						if(connected_elements == 4){
-							gameOver(player, "diagonally connected");  
+							gameOver(player, "4 coins diagonally connected");  
 						}
 					}else{
 						break; // the chain is broken 
@@ -130,7 +130,7 @@ $(document).ready(function(){
 					if(clicked_cells.includes(check_for)){
 						connected_elements = connected_elements + 1;
 						if(connected_elements == 4){
-							gameOver(player, "vertically connected");  
+							gameOver(player, "4 coins vertically connected");  
 						}
 					}else{
 						break; // the chain is broken 
@@ -167,7 +167,7 @@ $(document).ready(function(){
 					if(clicked_cells.includes(check_for)){
 						connected_elements = connected_elements + 1;
 						if(connected_elements == 4){
-							gameOver(player , "Horizontally connected");  
+							gameOver(player , "4 coins connected horizontally");  
 						}
 					}else{
 						break; // the chain is broken 
@@ -190,7 +190,7 @@ $(document).ready(function(){
 		//shows winner
 		function gameOver(player, msg){
 			if (player != 3 ) {
-				alert("PLAYER" +  player + " wins by " + msg);
+				alert("PLAYER" +  player + " wins : " + msg);
 			} else {
 				alert("It's a draw : GAME OVER");
 			}
@@ -204,10 +204,19 @@ $(document).ready(function(){
  			clicked_cells2 = [];
 
  			//initialize players
- 			if(player_turn == 0 || player_turn == 2)
+ 			if(player_turn == 0 || player_turn == 2){
  			 	player_turn = 1;
- 			else
+				$("#instructions").removeClass("colorDarkPurpleBg");
+				$("#instructions").addClass("darkerGoldenYellowBg");
+				$("#instructions").text("Player 1's Turn");
+
+ 			}else{
  				player_turn = 2;
+ 				$("#instructions").removeClass("darkerGoldenYellowBg");
+				$("#instructions").addClass("colorDarkPurpleBg");
+				$("#instructions").text("Player 2's Turn");
+
+ 			}
 
  			//initialize with a 5 (for 0-5 ie. 6 rows, with 5 being the bottom row) value for 7 (columns) element
  			 filled_column_tracker = [5, 5, 5, 5, 5, 5, 5]; 
@@ -216,11 +225,11 @@ $(document).ready(function(){
  			game_canvas.empty(); 
 
  			initializeGameBoard(game_canvas);
+
  			
 		}
 
 		
-
 
 
 
@@ -232,6 +241,8 @@ $(document).ready(function(){
  		//when user clicks a cell
  		$("#game_canvas").on("click", '.coin_cell', function(){
 
+ 			
+
  			var clicked_cell_id = this.id;				// expecting an id of form e.g. r1c1  
  			var clicked_column_str  = clicked_cell_id[3];   // get the very last character, which will be column number
  			var row_to_fill = filled_column_tracker[clicked_column_str];
@@ -239,6 +250,9 @@ $(document).ready(function(){
  			var row_to_fill_str = row_to_fill.toString();
  			var cell_to_fill_only_numbers = row_to_fill_str + clicked_column_str;
  			
+
+ 		
+
  			// fill this cell
 			$("#" + cell_to_fill).removeClass("colorWarmBg");
 
@@ -263,7 +277,7 @@ $(document).ready(function(){
 				$("#" + cell_to_fill).addClass("colorDarkPurpleBg");
 				clicked_cells2.push(cell_to_fill_only_numbers); 
 
-				if(clicked_cells1.length > 3){
+				if(clicked_cells2.length > 3){
 				scanForDiagonalConnections(clicked_cells2, player_turn);
 				scanForVerticalConnection(clicked_cells2, player_turn);
 				scanForHorizontalConnection(clicked_cells2, player_turn);
@@ -301,6 +315,8 @@ $(document).ready(function(){
  		});
 
 
+
+ 		// when reset is clicked 
  		$("#reset").on('click', function(){
 
  			reset();
